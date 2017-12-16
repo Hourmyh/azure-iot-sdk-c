@@ -72,6 +72,7 @@ option(build_as_dynamic "build the IoT SDK libaries as dynamic"  OFF)
 option(build_network_e2e "build network E2E tests" OFF)
 option(use_prov_client "Enable provisioning client" OFF)
 option(use_tpm_simulator "tpm simulator type of hsm used with the provisioning client" OFF)
+option(sdk_analysis "" OFF)
 
 if(WIN32)
     option(use_openssl "set use_openssl to ON to use OpenSSL." OFF)
@@ -84,6 +85,10 @@ if(WIN32 AND ${use_openssl})
     option(set_trusted_cert_in_samples "set set_trusted_cert_in_samples to ON to have the samples set the SDK's built-in CA as TrustedCerts" ON)
 else()
     option(set_trusted_cert_in_samples "set set_trusted_cert_in_samples to ON to have the samples set the SDK's built-in CA as TrustedCerts" OFF)
+endif()
+
+if(${sdk_analysis})
+    set(memory_trace ON)
 endif()
 
 # Set Provisioning Information
@@ -327,4 +332,8 @@ endif()
 
 if (${build_network_e2e})
     add_subdirectory(network_e2e/tests)
+endif()
+
+if(${sdk_analysis})
+    add_subdirectory(sdk_analysis)
 endif()
